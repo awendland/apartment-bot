@@ -133,3 +133,28 @@ controller.hears(['status', 'uptime', 'identify yourself', 'who are you', 'what 
       ':robot_face: I am a bot named <@' + bot.identity.name +
        '>. I have been running for ' + uptime + ' on ' + hostname + '.')
   })
+
+/**
+ * Check who is at the apartment
+ */
+controller.hears(['who is home'], 'direct_message,direct_mention,mention', function(bot, message) {
+  bot.reply(message, '_Checking..._')
+  fetch('http://10.0.0.1').then(r => r.text()).then(body => {
+    const hostnameRegex = /host-name.>(.+?)<\/td>/g
+    const matches = []
+    for (let match; (match = hostnameRegex.exec(body)); ) matches.push(match)
+    const hostnames = matches.map(([, hostname]) => hostname)
+    const pad = s => ' '.repeat(String(s).length - (hostnames.length / 10)) + String(s)
+    const resp = hostnames.map((h, i) => `${pad(i + 1)}  ${h}`).join('\n')
+    bot.reply(message, `*Connected users:*\n${resp}`)
+  }).catch(e => {
+    bot.reply(message, `Error talking to router: ${e}`)
+  })
+})
+
+/**
+ * Identify a device at the apartment
+ */
+controller.hears(['id .*? as .*'], 'direct_message,direct_mention,mention', function(bot, message) {
+  bot.reply(message, 'TODO')
+})
