@@ -1,0 +1,15 @@
+{
+  "name": "apartment-bot",
+  "version": "1.0.0",
+  "description": "A bot to help out around the apartment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Wendland <me@alexwendland.com>",
+  "license": "CC-BY-4.0",
+  "dependencies": {
+    "botkit": "^0.5.0",
+    "node-fetch": "^1.6.3"
+  }
+}
